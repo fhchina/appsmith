@@ -175,7 +175,7 @@ describe("git-sync messages", () => {
     },
     {
       key: "NONE_REVERSIBLE_MESSAGE",
-      value: "This action is non reversible. Proceed with caution",
+      value: "This action is non reversible. Proceed with caution.",
     },
     {
       key: "CONTACT_SUPPORT_TO_UPGRADE",
