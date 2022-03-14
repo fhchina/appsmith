@@ -158,7 +158,7 @@ function GitConnection({ isImport }: Props) {
   const globalGitConfig = useSelector(getGlobalGitConfig);
   const localGitConfig = useSelector(getLocalGitConfig);
   const { tempRemoteUrl = "" } = useSelector(getTempRemoteUrl) || ({} as any);
-  const curApplication = useSelector(getCurrentApplication);
+  const currentApp = useSelector(getCurrentApplication);
   const isFetchingGlobalGitConfig = useSelector(getIsFetchingGlobalGitConfig);
   const isFetchingLocalGitConfig = useSelector(getIsFetchingLocalGitConfig);
   const { remoteUrl: remoteUrlInStore = "" } =
@@ -368,8 +368,8 @@ function GitConnection({ isImport }: Props) {
     dispatch(setIsGitSyncModalOpen({ isOpen: false }));
     dispatch(
       setDisconnectingGitApplication({
-        id: curApplication?.id || "",
-        name: curApplication?.name || "",
+        id: currentApp?.id || "",
+        name: currentApp?.name || "",
       }),
     );
     dispatch(setIsDisconnectGitModalOpen(true));
@@ -475,7 +475,7 @@ function GitConnection({ isImport }: Props) {
             setAuthorInfo={setAuthorInfo}
             toggleUseDefaultConfig={toggleHandler}
             triedSubmit={triedSubmit}
-            useGlobalConfig={!!useGlobalConfigInputVal}
+            useGlobalConfig={useGlobalConfigInputVal}
           />
           <ButtonContainer topMargin={0}>
             {isConnectingToGit && (
@@ -503,7 +503,14 @@ function GitConnection({ isImport }: Props) {
                 }
               />
             )}
-            {!isConnectingToGit && <GitConnectError onDisplay={scrolling} />}
+            {!isConnectingToGit && (
+              <GitConnectError
+                onClose={() => {
+                  setRemoteUrl("");
+                }}
+                onDisplay={scrolling}
+              />
+            )}
           </ButtonContainer>
         </>
       ) : null}

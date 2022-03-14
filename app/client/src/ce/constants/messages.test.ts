@@ -119,7 +119,7 @@ describe("git-sync messages", () => {
     },
     {
       key: "REMOTE_URL_INPUT_PLACEHOLDER",
-      value: "git://example.com:user/repo.git",
+      value: "ssh://example.com:user/repo.git",
     },
     { key: "COPIED_SSH_KEY", value: "Copied SSH Key" },
     {

@@ -21,6 +21,7 @@ export type NotificationBannerProps = {
   style?: React.CSSProperties;
   learnMoreClickHandler?: any;
   className?: string;
+  noLearnMoreArrow?: boolean;
 };
 
 const FlexContainer = styled.div`
@@ -36,10 +37,11 @@ const FlexContainer = styled.div`
 
   &.error {
     background-color: ${Colors.ERROR_50};
+    color: ${Colors.NOTIFICATION_BANNER_ERROR_TEXT};
   }
 
   &.enterprise {
-    background-color: #e8f5fa;
+    background-color: ${Colors.ENTERPRISE_LIGHT};
   }
 
   &.warning {
@@ -47,10 +49,16 @@ const FlexContainer = styled.div`
 `;
 
 const LinkText = styled.a`
-  color: ${Colors.CRUSTA};
+  color: ${(props: any) => props.color};
   cursor: pointer;
   font-weight: 500;
   margin-left: 0;
+  display: flex;
+  flex: 1;
+
+  &:hover {
+    color: ${(props: any) => props.color};
+  }
 `;
 
 const NOTIFICATION_VARIANT_MAP = {
@@ -63,6 +71,7 @@ const NOTIFICATION_VARIANT_MAP = {
       />
     ),
     closeButtonColor: Colors.ERROR_600,
+    linkTextColor: Colors.ERROR_600,
   }),
   [NotificationVariant.info]: (icon?: string) => ({
     icon: (
@@ -73,6 +82,7 @@ const NOTIFICATION_VARIANT_MAP = {
       />
     ),
     closeButtonColor: Colors.GREY_900,
+    linkTextColor: Colors.GREY_900,
   }),
   [NotificationVariant.warning]: (icon?: string) => ({
     icon: (
@@ -83,6 +93,7 @@ const NOTIFICATION_VARIANT_MAP = {
       />
     ),
     closeButtonColor: Colors.WARNING_600,
+    linkTextColor: Colors.WARNING_600,
   }),
   [NotificationVariant.enterprise]: (icon?: string) => ({
     icon: (
@@ -93,6 +104,7 @@ const NOTIFICATION_VARIANT_MAP = {
       />
     ),
     closeButtonColor: Colors.CURIOUS_BLUE,
+    linkTextColor: Colors.ENTERPRISE_DARK,
   }),
 };
 
@@ -103,6 +115,7 @@ const TextContainer = styled.div`
 const CloseButtonContainer = styled.div`
   display: flex;
   justify-items: center;
+
   & button {
     color: ${(props) => props.color};
 
@@ -132,9 +145,10 @@ const LearnMoreContainer = styled.div``;
 export function NotificationBanner(props: NotificationBannerProps) {
   const variant = props?.variant;
   const propIcon = props?.icon;
-  const { closeButtonColor, icon } = NOTIFICATION_VARIANT_MAP[variant](
-    propIcon,
-  );
+  const noLearnMoreArrow = props?.noLearnMoreArrow || false;
+  const { closeButtonColor, icon, linkTextColor } = NOTIFICATION_VARIANT_MAP[
+    variant
+  ](propIcon);
   return (
     <FlexContainer className={props.className} style={props.style}>
       {props?.icon && <IconContainer>{icon}</IconContainer>}
@@ -142,8 +156,14 @@ export function NotificationBanner(props: NotificationBannerProps) {
         {props.children}
         {props?.learnMoreClickHandler && (
           <LearnMoreContainer>
-            <LinkText onClick={props?.learnMoreClickHandler}>
+            <LinkText
+              color={linkTextColor}
+              onClick={props?.learnMoreClickHandler}
+            >
               {createMessage(LEARN_MORE)}
+              {!noLearnMoreArrow && (
+                <Icon name="right-arrow" size={IconSize.XL} />
+              )}
             </LinkText>
           </LearnMoreContainer>
         )}

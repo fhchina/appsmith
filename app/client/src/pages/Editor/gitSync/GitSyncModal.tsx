@@ -19,6 +19,7 @@ import styled, { useTheme } from "styled-components";
 import { get } from "lodash";
 import { GitSyncModalTab } from "entities/GitSync";
 import AnalyticsUtil from "utils/AnalyticsUtil";
+import { Colors } from "../../../constants/Colors";
 
 const Container = styled.div`
   height: 600px;
@@ -45,6 +46,10 @@ const CloseBtnContainer = styled.div`
 
   padding: ${(props) => props.theme.spaces[1]}px;
   border-radius: ${(props) => props.theme.radii[1]}px;
+
+  &:hover svg path {
+    fill: ${Colors.GREY_900};
+  }
 `;
 
 const GitSyncTabsContainer = styled.div``;

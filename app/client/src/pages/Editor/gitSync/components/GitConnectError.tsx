@@ -1,45 +1,26 @@
 import React, { useEffect } from "react";
 import styled from "constants/DefaultTheme";
-import { Classes } from "components/ads/common";
-import Text, { Case, FontWeight, TextType } from "components/ads/Text";
-import { Colors } from "constants/Colors";
-import Icon, { IconSize } from "components/ads/Icon";
-import {
-  createMessage,
-  READ_DOCUMENTATION,
-} from "@appsmith/constants/messages";
 import { useSelector } from "store";
 import {
   getConnectingErrorDocUrl,
   getGitConnectError,
 } from "selectors/gitSyncSelectors";
+import {
+  NotificationBanner,
+  NotificationBannerProps,
+  NotificationVariant,
+} from "../../../../components/ads/NotificationBanner";
 
-const ErrorWrapper = styled.div`
-  padding: 24px 0px;
-  .${Classes.TEXT} {
-    display: block;
-    margin-bottom: ${(props) => props.theme.spaces[3]}px;
-    &.t--read-document {
-      display: inline-flex;
-      .${Classes.ICON} {
-        margin-left: ${(props) => props.theme.spaces[3]}px;
-      }
-    }
-  }
-`;
-
-const LinkText = styled.a`
-  :hover {
-    text-decoration: none;
-    color: ${Colors.CRUSTA};
-  }
-  color: ${Colors.CRUSTA};
-  cursor: pointer;
+const NotificationContainer = styled.div`
+  margin-top: 16px;
+  max-width: calc(100% - 30px);
 `;
 
 export default function GitConnectError({
+  onClose,
   onDisplay,
 }: {
+  onClose?: () => void;
   onDisplay?: () => void;
 }) {
   const error = useSelector(getGitConnectError);
@@ -52,35 +33,25 @@ export default function GitConnectError({
       onDisplay();
     }
   }, [error]);
+
+  const learnMoreClickHandler = () =>
+    window.open(connectingErrorDocumentUrl, "_blank");
+
+  const notificationBannerOptions: NotificationBannerProps = {
+    canClose: true,
+    className: "error",
+    icon: "warning-line",
+    learnMoreClickHandler,
+    onClose: onClose,
+    variant: NotificationVariant.error,
+  };
+
   return error ? (
-    <ErrorWrapper>
-      {titleMessage.length > 0 && (
-        <Text
-          case={Case.UPPERCASE}
-          color={Colors.ERROR_RED}
-          type={TextType.P1}
-          weight={FontWeight.BOLD}
-        >
-          {titleMessage}
-        </Text>
-      )}
-      <Text color={Colors.ERROR_RED} type={TextType.P2}>
-        {error?.message}
-      </Text>
-      <LinkText
-        onClick={() => window.open(connectingErrorDocumentUrl, "_blank")}
-      >
-        <Text
-          case={Case.UPPERCASE}
-          className="t--read-document"
-          color={Colors.CHARCOAL}
-          type={TextType.P3}
-          weight={FontWeight.BOLD}
-        >
-          {createMessage(READ_DOCUMENTATION)}
-          <Icon name="right-arrow" size={IconSize.SMALL} />
-        </Text>
-      </LinkText>
-    </ErrorWrapper>
+    <NotificationContainer>
+      <NotificationBanner {...notificationBannerOptions}>
+        <div style={{ marginBottom: "8px" }}>{titleMessage}</div>
+        <div style={{ marginBottom: "8px" }}>{error?.message}</div>
+      </NotificationBanner>
+    </NotificationContainer>
   ) : null;
 }

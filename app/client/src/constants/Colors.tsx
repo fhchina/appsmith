@@ -200,5 +200,10 @@ export const Colors = {
   WARNING_600: "#DFA211",
 
   TRANSPARENT: "transparent",
+
+  ENTERPRISE_DARK: "#00407D",
+  ENTERPRISE_LIGHT: "#E8F5FA",
+
+  NOTIFICATION_BANNER_ERROR_TEXT: "#C91818",
 };
 export type Color = typeof Colors[keyof typeof Colors];
