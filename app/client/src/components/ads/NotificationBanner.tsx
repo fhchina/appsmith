@@ -157,6 +157,7 @@ export function NotificationBanner(props: NotificationBannerProps) {
         {props?.learnMoreClickHandler && (
           <LearnMoreContainer>
             <LinkText
+              className="t--notification-banner-learn-more"
               color={linkTextColor}
               onClick={props?.learnMoreClickHandler}
             >
