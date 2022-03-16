@@ -186,7 +186,7 @@ describe("git-sync messages", () => {
       key: "DISCONNECT_CAUSE_APPLICATION_BREAK",
       value: "Disconnect might cause the application to break.",
     },
-    { key: "DISCONNECT_GIT", value: "Disconnect git" },
+    { key: "DISCONNECT_GIT", value: "Revoke access" },
     { key: "DISCONNECT", value: "DISCONNECT" },
     { key: "GIT_DISCONNECTION_SUBMENU", value: "Git Connection > Disconnect" },
     { key: "USE_DEFAULT_CONFIGURATION", value: "Use default configuration" },
