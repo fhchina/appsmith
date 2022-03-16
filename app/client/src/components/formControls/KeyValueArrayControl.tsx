@@ -5,6 +5,7 @@ import {
   WrappedFieldArrayProps,
   WrappedFieldMetaProps,
   WrappedFieldInputProps,
+  getFormValues,
 } from "redux-form";
 import styled from "styled-components";
 import { Icon } from "@blueprintjs/core";
@@ -14,6 +15,8 @@ import { ControlType } from "constants/PropertyControlConstants";
 import DynamicTextField from "components/editorComponents/form/fields/DynamicTextField";
 import { Colors } from "constants/Colors";
 import TextInput, { TextInputProps } from "components/ads/TextInput";
+import { useSelector } from "react-redux";
+import _ from "lodash";
 export interface KeyValueArrayControlProps extends ControlProps {
   name: string;
   label: string;
@@ -49,10 +52,15 @@ function KeyValueRow(
   const keyName = getFieldName(extraData[0]?.configProperty);
   const valueName = getFieldName(extraData[1]?.configProperty);
   const keyFieldProps = extraData[0];
+  const formValues: any = useSelector((state: any) =>
+    getFormValues(props.formName)(state),
+  );
 
   useEffect(() => {
     // Always maintain 1 row
-    if (props.fields.length < 1) {
+    const configValue = _.get(formValues, props.configProperty);
+    console.log("configValue", configValue);
+    if (props.fields.length < 1 && !!configValue) {
       for (let i = props.fields.length; i < 1; i += 1) {
         if (keyName && valueName) {
           props.fields.push({ [keyName[1]]: "", [valueName[1]]: "" });
@@ -61,7 +69,7 @@ function KeyValueRow(
         }
       }
     }
-  }, [props.fields, keyName, valueName]);
+  }, [props.fields.length, keyName, valueName]);
 
   useEffect(() => {
     if (typeof props.fields.getAll() === "string") {
