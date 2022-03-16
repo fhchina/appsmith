@@ -656,7 +656,7 @@ export const CONTACT_SUPPORT_TO_UPGRADE = () =>
   "Contact support to upgrade. You can add unlimited private repositories in upgraded plan.";
 export const DISCONNECT_CAUSE_APPLICATION_BREAK = () =>
   "Disconnect might cause the application to break.";
-export const DISCONNECT_GIT = () => "Disconnect git";
+export const DISCONNECT_GIT = () => "Revoke access";
 export const DISCONNECT = () => "DISCONNECT";
 export const REVOKE = () => "REVOKE";
 export const REVOKE_ACCESS = () => "REVOKE ACCESS";
