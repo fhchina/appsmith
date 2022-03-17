@@ -47,7 +47,7 @@ export default function GitConnectError({
   };
 
   return error ? (
-    <NotificationContainer>
+    <NotificationContainer className="t--git-connection-error">
       <NotificationBanner {...notificationBannerOptions}>
         <div style={{ marginBottom: "8px" }}>{titleMessage}</div>
         <div style={{ marginBottom: "8px" }}>{error?.message}</div>
